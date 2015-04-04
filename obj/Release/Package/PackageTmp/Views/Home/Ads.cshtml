@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Explore!";
+}
+<h2>@ViewBag.Title</h2>
+<h3>Found <span class="highlight">@ViewBag.numads</span> ads.</h3>
+
+
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>
+            <button class="btn btn-primary" type="submit" name="c50">Cover & >=50%</button>
+            <button class="btn btn-primary" type="submit" name="t5">Top 5</button>
+            <button class="btn btn-primary" type="submit" name="t5o">Top 5 Overall</button>
+
+        </p>
+    }
+</div>
+
+<div>
+    <table class="table table-striped tablesorter" id="ads_table">
+        <thead>
+            <tr>
+                <th>Ad Id</th>
+                <th>Brand Id</th>
+                <th>Name</th>
+                <th>Num Pages</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ad in ViewBag.Ads)
+            {
+                <tr>
+                    <td>
+                        @(ad.AdId == 0 ? "N/A" : ad.AdId )
+                    </td>
+                    <td>
+                        @ad.Brand.BrandId
+                    </td>
+                    <td>
+                        @ad.Brand.BrandName
+                    </td>
+                    <td>
+                        @ad.NumPages
+                    </td>
+                    <td>
+                        @(ad.Position == null ? "N/A" : ad.Position )
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="pager" class="pager">
+    <form>
+        <img src="~/Content/first.png" class="first" />
+        <img src="~/Content/prev.png" class="prev" />
+        <input type="text" class="pagedisplay" />
+        <img src="~/Content/next.png" class="next" />
+        <img src="~/Content/last.png" class="last" />
+        <select class="pagesize">
+            <option selected="selected" value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+        </select>
+    </form>
+</div>
+
+<br />
+
+<script>
+    $(document).ready(function() 
+    {
+        $("#ads_table")
+            .tablesorter()
+            .tablesorterPager({ container: $("#pager") });
+    } 
+    );
+</script>
